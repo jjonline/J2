@@ -5,7 +5,7 @@
  * @date    2014-12-07
  * @version $Id$
  */
-if(!defined('EMLOG_ROOT')) {exit('J2 Functions Requrire Emlog!');} 
+if(!defined('EMLOG_ROOT')) {exit('J2 Functions Requrire Emlog!');}
 /**
  * @des 获取指定logid的附图 方法体内部自动实现查询、缓存 提升系统执行效率
  * @des 注意：本方法额外添加了一个logimageatt缓存字段 方法体外部不宜调用该字段
@@ -264,7 +264,50 @@ function isWebIndex() {
 	$qString = trim(Dispatcher::setPath(), '/');
 	return !!(!$qString || preg_match('/^\?page=\d+/',$qString) || preg_match('/^page\/\d+/',$qString) || preg_match('/^\?keyword=.*/',$qString));
 }
-
+/**
+ * @des 检测网站相关配置项并传递给前端js调用
+ * @param null
+ * @return array
+ */
+function isVerfy() {
+	global $CACHE; 
+	$Options = $CACHE->readCache('options');
+	//dump($Options);
+	$verfy = array('isOpenComment'=>'false','isCommentCode'=>'false','isCommentCheck'=>'false','isOpenTwitter'=>'false','isOpenTwitterReply'=>'false','isTwiterCode'=>'false','isTwiterCheck'=>'false');
+	if($Options['iscomment']=='y') {//是否开启文章评论
+		$verfy['isOpenComment'] = 'true';
+	}
+	if($Options['comment_code']=='y') {//文章评论是否需要输入验证码
+		$verfy['isCommentCode'] = 'true';
+	}
+	if($Options['ischkcomment']=='y') {//文章是否审核评论后显示
+		$verfy['isCommentCheck'] = 'true';
+	}
+	if($Options['istwitter']=='y') {//是否前台开启碎语
+		$verfy['isOpenTwitter'] = 'true';
+	}
+	if($Options['istreply']=='y') {//是否前台开启碎语回复
+		$verfy['isOpenTwitterReply'] = 'true';
+	}
+	if($Options['reply_code']=='y') { //碎语是否开启回复验证码
+		$verfy['isTwiterCode'] = 'true';
+	}
+	if($Options['ischkreply']=='y') {//碎语护肤是否需要审核
+		$verfy['isTwiterCheck'] = 'true';
+	}	
+	return $verfy;
+}
+/**
+ * @des 判断用户是否登录
+ * @param null
+ * @return boolean
+ */
+function isUserLogin() {
+	if(ROLE == 'admin' || ROLE == 'writer') {
+		return true;
+	}
+	return false;
+}
 /**
  * @des emoji 标签处理评论并输出
  * @param $str 评论数据

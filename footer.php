@@ -25,9 +25,16 @@ if(!defined('EMLOG_ROOT')) {exit('error!');}
 <script type='text/javascript'>
 prettyPrint();
 window._info = {
-  logid:<?php echo !empty($logid)?$logid:'null';?>,
-  url:'<?php echo BLOG_URL; ?>',
-  tpl:'<?php echo TEMPLATE_URL; ?>'
+  'isLogin':<?php echo isUserLogin()?"true,\r\n":"false,\r\n";?>
+  'logid':<?php echo !empty($logid)?$logid:'null';?>,
+  'url':'<?php echo BLOG_URL; ?>',
+<?php 
+$Config = isVerfy();
+foreach ($Config as $key => $value) {
+	echo "  '".$key."':".$value.",\r\n";
+}
+?>
+  'tpl':'<?php echo TEMPLATE_URL; ?>'
 };
 </script>
 <script type='text/javascript' src='http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js'></script>

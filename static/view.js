@@ -13,7 +13,7 @@
 /**Base Func**/
 $(function () {
     /**ajax comment submit**/  
-    if(_info && _info.logid) {        
+    if(_info && _info.logid && _info.isOpenComment) {        
         var _PostNameNode    = $('#comname'),//comname
             _PostMailNode    = $('#commail'),//commail
             _PostUrlNode     = $('#comurl'),//comurl
@@ -39,7 +39,19 @@ $(function () {
         /**submit**/
         _PostFormNode.submit(function () {
             DisabledBtn(true);
-            
+            var _postData = {
+                    'gid':_PostGidNode.val(),
+                    'pid':_PostPidNode.val(),
+                    'comname':_PostNameNode.val(),
+                    'commail':_PostMailNode.val(),
+                    'comurl':_PostUrlNode.val(),
+                    'imgcode':_PostCodeNode.val(),
+                    'comment':_PostCommentNode.val()
+                };
+            //效验验证码
+            if(_info.isCommentCode) {
+                
+            }
             // prevent default event
             return false;
         });
