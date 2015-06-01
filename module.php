@@ -496,7 +496,7 @@ function blog_comments_post($logid,$ckname,$ckmail,$ckurl,$verifyCode,$allow_rem
 	<div class="comment_post_wrap comment_post" id="comment-post">
 		<h3 class="comment-header"><span class="cancel-reply" id="cancel-reply" style="display:none;"><a href="javascript:void(0);" onclick="cancelReply()">取消回复</a></span>发表评论<a name="respond"></a></h3>
 		<form method="post" name="commentform" action="<?php echo BLOG_URL; ?>index.php?action=addcom" id="commentform">
-			<input type="hidden" name="gid" value="<?php echo $logid; ?>" />
+			<input type="hidden" name="gid" id="comment-gid" value="<?php echo $logid; ?>" />
 			<input type="hidden" name="pid" id="comment-pid" value="0"/>
 			<div class="form-group form_textarea">
 				<div class="comment_textare"><textarea name="comment" id="comment" placeholder="说点什么吧~" title="说点什么吧~"></textarea></div>
