@@ -1,9 +1,10 @@
 <?php
 /*
  * @J2 附加函数库文件
- * @authors Ajing (JJonline@JJonline.Cn)
+ * @authors Jea杨 (JJonline@JJonline.Cn)
  * @date    2014-12-07
- * @version $Id$
+ * @date    2015-06-01 fixed
+ * @version 1.1
  */
 if(!defined('EMLOG_ROOT')) {exit('J2 Functions Requrire Emlog!');}
 /**
@@ -53,6 +54,7 @@ function getLogImageAtt($logid) {
 	$CACHE->cacheWrite(serialize($logImageAtt),'logimageatt');
 	return $_attcache;
 }
+
 /**
  * @des 处理日志正文中的图片包裹标签  若被p标签包裹就要替换掉p标签
  * @param content 日志正文
@@ -70,14 +72,16 @@ function handleContent($content) {
 	if($pcrecontent) {return $pcrecontent;}
 	return $content;
 }
+
 /**
  * @des 显示评论列表与否的判定方法
- * @param email
+ * @param $comnum 评论内容体
  * @return string 
  */
 function isShowComment($comnum) {
 	return !!$comnum;
 }
+
 /**
  * @des 获取avator头像 解决被墙
  * @param email
@@ -88,6 +92,7 @@ function J_getGravatar($email, $s = 40, $d = 'mm', $g = 'g') {
 	$avatar = "https://secure.gravatar.com/avatar/$hash?s=$s";
 	return $avatar;
 }
+
 /**
  * 浏览器友好的变量输出
  * @param mixed $var 变量
@@ -120,9 +125,11 @@ function dump($var, $echo=true, $label=null, $strict=true) {
     }else
         return $output;
 }
+
 /**
  * @des 多维数组按字段降序排列
- * @param null
+ * @param $multiArr 降序数组
+ * @param $ordeKey  排序字段
  * @return string 
  */
 function array_multi_sort($multiArr,$ordeKey) {
@@ -156,7 +163,7 @@ function newSignletwiter() {
  * @des 转换unix时间戳为个性化时间显示
  * @param $unixtime unix时间戳
  * @param $isfixtimezone 是否修正时区  boolean
- * @param des $isfixtimezone：脑残emlog发文时间会将服务器时间相对于时区进行处理后存储
+ * @des $isfixtimezone：脑残emlog发文时间会将服务器时间相对于时区进行处理后存储
  * @return string
  */
 function timeago($unixtime,$isfixtimezone=false) {
@@ -246,24 +253,27 @@ function getNowPageSortUrl($logData=null,$logs=null) {
 	//特例情况 存在分类 但没有数据的
 	return array('isSigle'=>false,'chirldSortUrl'=>$nowUrl,'parentSortUrl'=>$nowUrl);
 }
+
 /**
  * @des 检测是否为碎语页面=>脑残emlog在碎语带有分页时碎语navi将失效
- * @param $url 评论数据
+ * @param null
  * @return boolean
  */
 function isTwiterPage() {
 	$qString = trim(Dispatcher::setPath(), '/');
 	return !!preg_match('/^t(\/?page=\d+)*/',$qString);
 }
+
 /**
  * @des 检测是否为网站首页（首页包括分页的情况也被认为是首页）
- * @param $url 评论数据
+ * @param null
  * @return boolean
  */
 function isWebIndex() {
 	$qString = trim(Dispatcher::setPath(), '/');
 	return !!(!$qString || preg_match('/^\?page=\d+/',$qString) || preg_match('/^page\/\d+/',$qString) || preg_match('/^\?keyword=.*/',$qString));
 }
+
 /**
  * @des 检测网站相关配置项并传递给前端js调用
  * @param null
@@ -297,6 +307,7 @@ function isVerfy() {
 	}	
 	return $verfy;
 }
+
 /**
  * @des 判断用户是否登录
  * @param null
@@ -308,6 +319,7 @@ function isUserLogin() {
 	}
 	return false;
 }
+
 /**
  * @des emoji 标签处理评论并输出
  * @param $str 评论数据

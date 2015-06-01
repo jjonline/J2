@@ -4,7 +4,7 @@
  *URL: http://blog.jjonline.cn
  *Description: 晶晶的博客emlog开源J2主题
  *Author: Jea杨
- *Version: 1.0
+ *Version: 1.1
  *
  */
 /**image lazy load plugin**/

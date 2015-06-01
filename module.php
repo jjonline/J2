@@ -543,14 +543,14 @@ function blog_tool_ishome(){
     if (BLOG_URL . trim(Dispatcher::setPath(), '/') == BLOG_URL){
         return true;
     } else {
-        return FALSE;
+        return false;
     }
 }
 ?>
 <?php
 /**
  * @des 获取日志附件 友好显示附件下载情况 
- * @param email
+ * @param logid
  * @return string 
  */
 function blog_att($logid) {
