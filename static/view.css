@@ -381,13 +381,13 @@ pre.prettyprint.linenums ol li {margin:0;padding-left: 12px;color: #bebec5;line-
 /**widget_custom 用户自定义侧边栏容器**/
 .widget_custom_content {padding:10px;margin:0 auto;}
 /**footer**/
-.footer {color:#aaa;height:20px;padding-right:10px;font-size:12px;}
-.copyright {height:50px;padding:16px 20px 14px;text-shadow:0 -1px 0 #333333;background-color:#414141;border-left:20px solid #00a2ca;}
+.footer {color:#aaa;height:50px;font-size:12px;}
+.copyright {height:50px;padding:18px 20px 12px;line-height:20px;background-color:#414141;border-left:20px solid #00a2ca;}
 .co {height:20px;}
 .fo {float:left;margin:0 15px 0 0;}
 .copyright a {color:#aaa;}
 .copyright a:hover {color:#fff;}
-.scrollTop {position:fixed;right:20px;bottom:20px;z-index:999;width:42px;display:none;}
+.scrollTop {position:fixed;right:20px;bottom:50px;z-index:999;width:42px;display:none;}
 .fadeUp {color:#fff;background-color:#484848;vertical-align: middle;cursor:pointer;border:0;border-radius:0;font-size:25px;	margin-top:2px;height:42px;display:block;padding:0;width:100%;}
 .fadeUp:hover,.fadeUp:hover:focus {color:#ffffff;background-color:#333333;outline:0;}
 /**adjust**/

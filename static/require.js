@@ -1,1 +1,1 @@
-Jvisiter({"status":"ok","data":"http://blog.jjonline.cn"})
+Jvisiter({"status":"ok","data":"http://blog.jjonline.cn"});
