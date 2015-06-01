@@ -39,7 +39,7 @@
 				售价
 			</td>
 			<td>
-				免费开源（兼容IE6+补丁、ajax评论组件、会员中心等工具需额外付费购买）
+				免费开源（兼容IE6+补丁、会员中心等工具需额外付费购买）
 			</td>
 		</tr>
 		<tr>
@@ -60,3 +60,5 @@
 		</tr>
 	</tbody>
 </table>
+关于J2（勾贰）的详细使用与介绍请参考：
+<a href="http://blog.jjonline.cn/theme/J2.html" target=_blank>《J2（勾贰）主题相关介绍》</a>
