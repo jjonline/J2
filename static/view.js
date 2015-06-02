@@ -56,6 +56,23 @@ $(function () {
             return false;
         });
     };
+    /**change vcode**/
+    $('.comment_verfiy_container img').click(function () {
+        var src = $(this).attr('src');
+        if(!$(this).attr('data-src')) {
+            $(this).attr('data-src',src);
+        }
+        var _src = $(this).attr('data-src')+'?_rmd='+new Date().getTime();
+        $(this).attr('src',_src);
+    });
+    $('.twiter_reply_ipt_code img').click(function () {
+        var src = $(this).attr('src');
+        if(!$(this).attr('data-src')) {
+            $(this).attr('data-src',src);
+        }
+        var _src = $(this).attr('data-src')+'&_rmd='+new Date().getTime();
+        $(this).attr('src',_src);
+    });
 	/**lazy load**/
 	$.each($('.avatar img'),function (i,n) {$(n).scrollLoading();});	
     
