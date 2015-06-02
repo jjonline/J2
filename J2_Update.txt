@@ -14,3 +14,5 @@ Add
 
 Catag
 1、commet post url /index.php?action=addcom {http302=>success,200=>error}
+2、Twiter post url /admin/twitter.php?action=post {http302=>success,200=>error}
+#jQuery ajax 302 http status do not Capture

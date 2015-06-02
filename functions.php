@@ -283,7 +283,7 @@ function isVerfy() {
 	global $CACHE; 
 	$Options = $CACHE->readCache('options');
 	//dump($Options);
-	$verfy = array('isOpenComment'=>'false','isCommentCode'=>'false','isCommentCheck'=>'false','isOpenTwitter'=>'false','isOpenTwitterReply'=>'false','isTwiterCode'=>'false','isTwiterCheck'=>'false');
+	$verfy = array('isOpenComment'=>'false','isCommentCode'=>'false','isCommentCheck'=>'false','isOpenTwitter'=>'false','isOpenTwitterReply'=>'false','isTwiterCode'=>'false','isTwiterCheck'=>'false','isPageTwiter'=>'false');
 	if($Options['iscomment']=='y') {//是否开启文章评论
 		$verfy['isOpenComment'] = 'true';
 	}
@@ -302,9 +302,12 @@ function isVerfy() {
 	if($Options['reply_code']=='y') { //碎语是否开启回复验证码
 		$verfy['isTwiterCode'] = 'true';
 	}
-	if($Options['ischkreply']=='y') {//碎语护肤是否需要审核
+	if($Options['ischkreply']=='y') {//碎语回复是否需要审核
 		$verfy['isTwiterCheck'] = 'true';
-	}	
+	}
+	if(isTwiterPage()) {
+		$verfy['isPageTwiter'] = 'true';//是否碎语页面
+	}
 	return $verfy;
 }
 
@@ -318,6 +321,36 @@ function isUserLogin() {
 		return true;
 	}
 	return false;
+}
+
+/**
+ * @des 前台微语界面输出发布微语框
+ * @param null
+ * @return string
+ */
+function showTwiter() {
+	if(!isUserLogin()) { return ''; } //尚未登录直接返回
+	//默认采用后台上传的头像图片 后台未上传图片或被删除 使用gravatar头像
+	global $CACHE;
+	$Usr = $CACHE->readCache('user');
+	$Gravatar = BLOG_URL.$Usr[1]['avatar'];
+	if(!$Usr[1]['avatar']) {
+		$Gravatar = J_getGravatar($Usr[1]['mail'],100);
+	}
+	$Token 		  =  LoginAuth::genToken();
+	$BLOG_URL     =  BLOG_URL;
+	$gav 		  =  '<div class="addTwiterContainer"><div class="addTwiterAvatar"><img src="'.$Gravatar.'" title="'.$Usr[1]['name'].'"></div>';
+$addView          =  <<<STR
+	<div class="addTwiterContent">
+		<form method="post" action="{$BLOG_URL}admin/twitter.php?action=post" class="addTwiterForm">
+			<input name="token" id="token" value="{$Token}" type="hidden" />
+			<p class="addTwiterInput"><textarea id="addTwiter" title="来点碎碎念吧~" placeholder="来点碎碎念吧~" name="t"></textarea></p>
+			<p class="AddTwiterSubmit"><button type="submit" name="submit" class="sub_btn addTwiterBtn"><i class="fa fa-check-circle-o"></i> 发布微语</button><span class="addTwiterInfo">Ctrl+Enter快速提交</span></p>
+		</form>
+	</div>
+	</div>
+STR;
+	return $gav.$addView;
 }
 
 /**

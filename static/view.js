@@ -56,6 +56,99 @@ $(function () {
             return false;
         });
     };
+    /**twiter ajax**/
+    if(_info && _info.isOpenTwitter && _info.isPageTwiter && _info.isLogin) {
+        var _tokenNode       = $('#token'),//token
+            _twiterNode      = $('#addTwiter'),//t
+            _PostSubTBtnNode = $('.addTwiterBtn'),//Tbtn
+            _infoNode        = $('.addTwiterInfo'),
+            _twiterForm      = $('.addTwiterForm');
+        _twiterNode.focus(function () {
+            _infoNode.empty().append('Ctrl+Enter快速提交').css('color','#555');
+        });
+        /**control btn status**/
+        function DisabledTBtn(isDisabled,time) {
+            if(isDisabled) {
+                _PostSubTBtnNode.addClass('subDisabled').attr('disabled',true).fadeTo('slow',0.3);
+            }else {
+                _PostSubTBtnNode.removeClass('subDisabled').attr('disabled',false).fadeTo('slow',1);
+            }
+            if(time) {	//定时取消禁用状态
+                setTimeout(function () {
+                    _PostSubTBtnNode.removeClass('subDisabled').attr('disabled',false).fadeTo('slow',1);
+                },time*1000);
+            }
+        };
+        /**handle status ajax return**/
+        /**
+         * @param retStr ajax返回html
+         * @return boolean
+         */
+        function handleTwiterReturn(retStr) {
+            var ret = J.trimAll(J.trimEnter(retStr));
+            if(/<spanclass=\"actived\">/.test(ret)) {
+                return true;
+            }
+            if(/<spanclass=\"error\">/.test(ret)) {
+                return false;
+            }
+            //意外情况
+            return false;
+        }
+        _twiterForm.submit(function () {
+            var _Data   = {'t':$.trim(_twiterNode.val()),'token':_tokenNode.val()},
+                _Url    = _twiterForm.attr('action'),
+                _Url    = _Url?_Url:_info.url+'admin/twitter.php?action=post';
+            if(_Data.t.length==0) {
+                _infoNode.empty().append('请输入碎语').css('color','#CC0033');
+                //_twiterNode.blur();
+                return false;
+            }
+            if(_Data.t.length>140) {
+                _infoNode.empty().append('碎语不得多于140字').css('color','#CC0033');
+                //_twiterNode.blur();
+                return false;
+            }
+            DisabledTBtn(true);
+            $.ajax({
+                type: "POST",
+				url: _Url,
+				dataType:'html',
+				data: _Data,
+                success: function (msg) {
+                    if(handleTwiterReturn(msg)) {
+                        _twiterNode.val('');
+                        var _newNode = [
+                            '<li class="twiter_list" style="background:#FBFCE7;">',
+                                '<img src="'+$('.twiter_list img').attr('src')+'" alt="'+$('.twiter_list img').attr('alt')+'" class="twiter_avatar" />',
+                                '<p class="twiter_content">'+_Data.t+'</p>',
+                                '<p class="twiter_info"><span class="twiter_author">'+$('.twiter_list img').attr('alt')+'</span><span class="twiter_time"><i class="fa fa-clock-o"></i> 刚刚</span></p>',
+                            '</li>'
+                        ].join('');
+                        $('.twiter').prepend(_newNode);
+                        _infoNode.empty().append('碎语发布成功').css('color','#99CC33');
+                    }else {
+                        _infoNode.empty().append('碎语发布失败').css('color','#CC0033'); 
+                    }
+                    DisabledTBtn(false);
+                    return false;                   
+                },
+                error:function (XMLHttpRequest,textStatus,errorThrown) {
+                    _infoNode.empty().append('网络异常').css('color','#CC0033');
+                    DisabledTBtn(false);
+                    return false;
+                }
+            });
+            // prevent default event
+            return false;
+        });
+        //bind Ctrl+Enter submit
+        _twiterNode.keypress(function(event){
+            if(event.ctrlKey && event.keyCode == 13 || event.which == 10) {
+                if(_PostSubTBtnNode.hasClass('subDisabled')){return false;}else{$(this).submit();}
+            }
+        });
+    }
     /**change vcode**/
     $('.comment_verfiy_container img').click(function () {
         var src = $(this).attr('src');

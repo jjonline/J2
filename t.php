@@ -8,6 +8,7 @@ if(!defined('EMLOG_ROOT')) {exit('error!');}
     <div class="contentWrap">
         <div class="content">
         <div class="article_position"><i>您的位置：</i><a href="<?php echo BLOG_URL; ?>" title="<?php echo $blogname; ?>"><?php echo $blogname; ?></a> <small>&gt;</small> <a href="<?php echo BLOG_URL; ?>t">微语</a></div>
+        <?php echo showTwiter(); ?>
         <ul class="twiter">
             <?php
             foreach($tws as $val):
