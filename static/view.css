@@ -270,6 +270,7 @@ a:hover{color:#00a2ca;text-decoration:none;}
 .comment_user_info {text-align:center;}
 .comment_user_info input {border:1px solid #ccc;border-radius:2px;height:34px;padding:3px 5px;outline:none;width:200px;}
 .comment_user_info label {font-weight:normal;}
+.comment_info {display:inline-block;padding:9px 10px 9px 0;}
 .comment_face_wrapper {position:absolute;}
 /**comment list**/
 .article_comment_list {background:#FFF;padding:0 20px;}

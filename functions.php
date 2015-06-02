@@ -29,10 +29,10 @@ function getLogImageAtt($logid) {
 		return $logImageAtt[$logid]['url'];
 	}
 	//缓存中不存在 建立缓存并返回数据
-	$Db        = MySql::getInstance();
-	$query     = $Db->query("SELECT * FROM " . DB_PREFIX . "attachment WHERE `blogid`=".$logid." ORDER BY `aid` DESC");
-	$_attcache = TEMPLATE_URL.'images/noImg.png';
-	while($row = $Db->fetch_array($query)) {
+	$Db             = MySql::getInstance();
+	$query          = $Db->query("SELECT * FROM " . DB_PREFIX . "attachment WHERE `blogid`=".$logid." ORDER BY `aid` DESC");
+	$_attcache      = TEMPLATE_URL.'images/noImg.png';
+	while($row      = $Db->fetch_array($query)) {
 		if($row['width'] == 220 && $row['height'] == 150) {
 			$_attcache   = BLOG_URL.ltrim(ltrim($row['filepath'],'.'),'/');
 			break;
@@ -285,16 +285,16 @@ function isVerfy() {
 	//dump($Options);
 	$verfy = array('isOpenComment'=>'false','isCommentCode'=>'false','isCommentCheck'=>'false','isOpenTwitter'=>'false','isOpenTwitterReply'=>'false','isTwiterCode'=>'false','isTwiterCheck'=>'false','isPageTwiter'=>'false');
 	if($Options['iscomment']=='y') {//是否开启文章评论
-		$verfy['isOpenComment'] = 'true';
+		$verfy['isOpenComment']  = 'true';
 	}
 	if($Options['comment_code']=='y') {//文章评论是否需要输入验证码
-		$verfy['isCommentCode'] = 'true';
+		$verfy['isCommentCode']  = 'true';
 	}
 	if($Options['ischkcomment']=='y') {//文章是否审核评论后显示
 		$verfy['isCommentCheck'] = 'true';
 	}
 	if($Options['istwitter']=='y') {//是否前台开启碎语
-		$verfy['isOpenTwitter'] = 'true';
+		$verfy['isOpenTwitter']  = 'true';
 	}
 	if($Options['istreply']=='y') {//是否前台开启碎语回复
 		$verfy['isOpenTwitterReply'] = 'true';
@@ -306,7 +306,7 @@ function isVerfy() {
 		$verfy['isTwiterCheck'] = 'true';
 	}
 	if(isTwiterPage()) {
-		$verfy['isPageTwiter'] = 'true';//是否碎语页面
+		$verfy['isPageTwiter']  = 'true';//是否碎语页面
 	}
 	return $verfy;
 }
@@ -332,10 +332,10 @@ function showTwiter() {
 	if(!isUserLogin()) { return ''; } //尚未登录直接返回
 	//默认采用后台上传的头像图片 后台未上传图片或被删除 使用gravatar头像
 	global $CACHE;
-	$Usr = $CACHE->readCache('user');
-	$Gravatar = BLOG_URL.$Usr[1]['avatar'];
+	$Usr 		  =  $CACHE->readCache('user');
+	$Gravatar     =  BLOG_URL.$Usr[1]['avatar'];
 	if(!$Usr[1]['avatar']) {
-		$Gravatar = J_getGravatar($Usr[1]['mail'],100);
+	$Gravatar 	  =  J_getGravatar($Usr[1]['mail'],100);
 	}
 	$Token 		  =  LoginAuth::genToken();
 	$BLOG_URL     =  BLOG_URL;

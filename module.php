@@ -511,7 +511,8 @@ function blog_comments_post($logid,$ckname,$ckmail,$ckurl,$verifyCode,$allow_rem
 						?>
 						<span class="comment_face_btn"><i class="fa fa-smile-o"></i> 表情</span>
 						<div class="comment_submit_wrap">
-							<?php if(!empty($verifyCode)) {echo '<span class="comment_verfiy_container"><img src="'.BLOG_URL.'include/lib/checkcode.php" class="c_code" alt="看不清楚？点图切换" title="看不清楚？点图切换"><input type="text" name="imgcode" class="comment_verfiy_code" placeholder="输入验证码" autocomplete="off"></span>';}; ?>
+							<?php if(!empty($verifyCode)) {echo '<span class="comment_verfiy_container"><img src="'.BLOG_URL.'include/lib/checkcode.php" class="c_code" alt="看不清楚？点图切换" title="看不清楚？点图切换"><input type="text" name="imgcode" class="comment_verfiy_code" placeholder="输入验证码" autocomplete="off" title="看不清楚？点图切换"></span>';}; ?>
+							<span class="comment_info">Ctrl+Enter快速提交</span>
 							<button type="submit" name="submit" id="comment_submit" class="sub_btn"><i class="fa fa-check-circle-o"></i> 提交评论</button>
 						</div>
 					</div>
