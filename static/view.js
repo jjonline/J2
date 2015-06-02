@@ -156,18 +156,36 @@ $(function () {
                             _imgNode.attr('src',_src);                         
                         }
                         if(!_info.isCommentCheck) {
-                            var _nickName = _postData.comname?_postData.comname:'管理员';
-                            var _newNode  = [
-                                '<div class="comment dpt_line" style="background:#FBFCE7;">',
+                            var _nickName = _postData.comname?_postData.comname:'管理员',
+                                _tips     =  '评论成功';
+                            if(_postData.pid>0) {
+                                //子评论
+                                var _newNode = [
+                                    '<div class="comment comment-children" style="background:#FBFCE7;">',
                                     '<div class="avatar"><img src="'+_info.tpl+'images/noAvator.jpg"></div>',
                                     '<div class="comment-info">',
                                         '<div class="comment-content">'+HandlComment(_postData.comment)+'</div>',
-                                        '<div class="comment-meata"><span class="comment-poster">'+_nickName+' </span> <span class="comment-time">刚刚</span></div>',
+                                        '<div class="comment-meata">',
+                                            '<span class="comment-poster">'+_nickName+' </span>',
+                                            '<span class="comment-time">刚刚</span>',
+                                        '</div>',
                                     '</div>',
-                                '</div>'
-                            ].join('');
-                            $('.article_comment_list').prepend(_newNode);
-                            _tips   =  '评论成功';
+                                    '</div>'
+                                ].join('');
+                                $('#comment-'+_postData.pid).append(_newNode);
+                            }else {
+                                //全新评论
+                                var _newNode  = [
+                                    '<div class="comment dpt_line" style="background:#FBFCE7;">',
+                                        '<div class="avatar"><img src="'+_info.tpl+'images/noAvator.jpg"></div>',
+                                        '<div class="comment-info">',
+                                            '<div class="comment-content">'+HandlComment(_postData.comment)+'</div>',
+                                            '<div class="comment-meata"><span class="comment-poster">'+_nickName+' </span> <span class="comment-time">刚刚</span></div>',
+                                        '</div>',
+                                    '</div>'
+                                ].join('');
+                                $('.article_comment_list').prepend(_newNode);
+                            }
                         }else {
                             _tips   =  '评论成功，管理员审核通过后方可显示';
                         }                        
