@@ -212,7 +212,7 @@ $(function () {
             }
         });
         //face
-        var _FaceBtnNode = $('.comment_face_btn'),_FaceInsertNode = $('#comment-post');
+        var _FaceBtnNode = $('.comment_face_btn'),_FaceInsertNode = $('.form_textarea');
         _FaceBtnNode.click(function () {
             if($(this).hasClass('readyState')) {
                 $('#Face').slideToggle();
@@ -225,7 +225,7 @@ $(function () {
                 });
                 _FaceString.push('</p></div>');
                 _FaceString    = _FaceString.join('');
-                _FaceInsertNode.append(_FaceString);
+                _FaceInsertNode.after(_FaceString);
                 //bind event
                 $('#Face a').bind({
                     'click':function () {
