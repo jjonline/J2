@@ -276,7 +276,7 @@ a:hover{color:#00a2ca;text-decoration:none;}
 .faceContainer a {display:inline-block;height:24px;width:24px;border:1px solid #eee;border-radius:3px;}
 .faceContainer a:hover {border:1px solid #00a2ca;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;transition:all .2s linear;}
 .faceContainer img {display:inline-block;vertical-align:baseline;width:20px;height:20px;margin:1px;}
-.faceContainer::after {position:absolute;top:-8px;left:100px;width:0;height:0;vertical-align:top;border-bottom:8px solid #EEEEEE;  border-right:8px solid rgba(0, 0, 0, 0);border-left:8px solid rgba(0, 0, 0, 0); content: "";}
+.faceContainer::after {position:absolute;top:-8px;left:20px;width:0;height:0;vertical-align:top;border-bottom:8px solid #EEEEEE;  border-right:8px solid rgba(0, 0, 0, 0);border-left:8px solid rgba(0, 0, 0, 0); content: "";}
 /**comment list**/
 .article_comment_list {background:#FFF;padding:0 20px;}
 .comment {word-wrap:break-word;overflow:hidden;}
