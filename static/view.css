@@ -271,7 +271,12 @@ a:hover{color:#00a2ca;text-decoration:none;}
 .comment_user_info input {border:1px solid #ccc;border-radius:2px;height:34px;padding:3px 5px;outline:none;width:200px;}
 .comment_user_info label {font-weight:normal;}
 .comment_info {display:inline-block;padding:9px 10px 9px 0;}
-.comment_face_wrapper {position:absolute;}
+.faceContainer {padding:0 20px 15px;position:relative;}
+.faceContainer p {margin:0;display:inline-block;background:#eee;padding:5px 8px;height:34px;}
+.faceContainer a {display:inline-block;height:24px;width:24px;border:1px solid #eee;border-radius:3px;}
+.faceContainer a:hover {border:1px solid #00a2ca;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;transition:all .2s linear;}
+.faceContainer img {display:inline-block;vertical-align:baseline;width:20px;height:20px;margin:1px;}
+.faceContainer::after {position:absolute;top:-8px;left:135px;width:0;height:0;vertical-align:top;border-bottom:8px solid #EEEEEE;  border-right:8px solid rgba(0, 0, 0, 0);border-left:8px solid rgba(0, 0, 0, 0); content: "";}
 /**comment list**/
 .article_comment_list {background:#FFF;padding:0 20px;}
 .comment {word-wrap:break-word;overflow:hidden;}

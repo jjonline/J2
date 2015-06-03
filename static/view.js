@@ -211,6 +211,44 @@ $(function () {
                 if(_PostSubBtnNode.hasClass('subDisabled')){return false;}else{$(this).submit();}
             }
         });
+        //face
+        var _FaceBtnNode = $('.comment_face_btn'),_FaceInsertNode = $('#comment-post');
+        _FaceBtnNode.click(function () {
+            if($(this).hasClass('readyState')) {
+                $('#Face').slideToggle();
+            }else {
+                $(this).addClass('readyState')
+                var _FaceString = ['<div id="Face" class="faceContainer"><p>'];
+                $.each(face,function(i,n) {
+                    var _value = '<a href="javascript:;" title="'+n.title+'" data-title="'+n.title+'"><img src="'+_info.tpl + n.img+'"></a>';
+                    _FaceString.push(_value);
+                });
+                _FaceString.push('</p></div>');
+                _FaceString    = _FaceString.join('');
+                _FaceInsertNode.append(_FaceString);
+                //bind event
+                $('#Face a').bind({
+                    'click':function () {
+                        var _FaceString = $(this).attr('data-title'),
+                            obj         = $("#comment").get(0);
+                        if (document.selection) {
+                            obj.focus();
+                            var sel = document.selection.createRange();
+                            sel.text = _FaceString;
+                        } else if (typeof obj.selectionStart === 'number' && typeof obj.selectionEnd === 'number') {
+                            obj.focus();
+                            var startPos = obj.selectionStart;
+                            var endPos = obj.selectionEnd;
+                            var tmpStr = obj.value;
+                            obj.value = tmpStr.substring(0, startPos) + _FaceString + tmpStr.substring(endPos, tmpStr.length);
+                        } else {
+                            obj.value += _FaceString;
+                        }
+                        $('#Face').slideToggle();
+                    }
+                });
+            }
+        });
     };
     /**twiter ajax**/
     if(_info && _info.isOpenTwitter && _info.isPageTwiter && _info.isLogin) {

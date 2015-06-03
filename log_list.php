@@ -5,7 +5,6 @@
 if(!defined('EMLOG_ROOT')) {exit('error!');} 
 ?>
 <?php doAction('index_loglist_top'); ?>
-
 <section class="container container_section"><!--begin log list-->
 	<div class="contentWrap">
 		<div class="content">
