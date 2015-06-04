@@ -175,7 +175,6 @@ $(function () {
                                 $('#comment-'+_postData.pid).append(_newNode);
                             }else {
                                 //全新评论 检测是否为第一条评论 产生评论容器
-                                //<h3 class="comment-header">网友评论<b>（1）</b></h3><div class="article_comment_list"></div>
                                 var _newNode  = [
                                     '<div class="comment dpt_line" style="background:#FBFCE7;">',
                                         '<div class="avatar"><img src="'+_info.tpl+'images/noAvator.jpg"></div>',
