@@ -64,9 +64,9 @@
 添加侧边栏滚动固定容器
 #########
 后台自定义侧边栏，输入代码时使用：
-<div class="widget_custom_fixed">
-#code
-</div>
+    <div class="widget_custom_fixed">
+    #code
+    </div>
 包裹即可，注意：仅能存在一个滚动固定容器!!!
 关于J2（勾贰）的详细使用与介绍请参考：
 <a href="http://blog.jjonline.cn/theme/J2.html" target=_blank>《J2（勾贰）主题相关介绍》</a>
