@@ -389,7 +389,41 @@ $(function () {
 	$('.scrollTop').click(function(){
 		$('html,body').animate({scrollTop:0},300);
 	});	
-	
+	/**widget_custom scroll Fixed**/
+    var _Fixed = $('.widget_custom_fixed');
+    if(typeof _Fixed.html()!='undefined') {
+        var _FixedParent   = _Fixed.parents('.widget_custom'),
+            _top           = _FixedParent.offset().top,
+            documentHeight = $(document).height(),
+            isIE6	       = window.ActiveXObject && !window.XMLHttpRequest;
+        function Fixed() {
+            var sideBarHeight  = _FixedParent.height();
+                if($(window).scrollTop() > _top) {
+                    var newPosition = $(window).scrollTop() - _top;
+                    var maxPosition = documentHeight - sideBarHeight;
+                    if (newPosition > maxPosition) {
+                        newPosition = maxPosition;
+                    }
+                    if(isIE6) {
+                        _FixedParent.stop().animate({
+                            marginTop: newPosition + 10+'px'
+                        });
+                    }else {
+                        _FixedParent.css({'position':'fixed','top':'10px'});
+                    }
+                }else {
+                    if(isIE6) {
+                        _FixedParent.stop().animate({
+                            marginTop: 0
+                        });
+                    }else {
+                        _FixedParent.css({'position':'static','top':0});
+                    }
+                };
+        };
+        Fixed();
+        $(window).scroll(function () {Fixed();});
+    }
 	/**baidu share**/
 	if(_info.logid && $(window).width()>640) {
 		window._bd_share_config = {
