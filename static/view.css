@@ -403,7 +403,11 @@ pre.prettyprint.linenums ol li {margin:0;padding-left: 12px;color: #bebec5;line-
 .J_calendar .calendar .day a,.J_calendar .calendar .day2 a {color:#F60;display:block;}
 .J_calendar .calendar .day2:hover {opacity:0.8;filter:alpha(opacity=80);}
 /**widget_custom 用户自定义侧边栏容器**/
+.widget_custom {width:360px;}
 .widget_custom_content {padding:10px;margin:0 auto;}
+.widget_custom_300 {width:300px;margin:10px auto;}
+.widget_custom_320 {width:320px;margin:5px auto;}
+.widget_custom_340 {width:340px;margin:0 auto;}
 /**footer**/
 .footer {color:#aaa;height:50px;font-size:12px;}
 .copyright {height:50px;padding:18px 20px 12px;line-height:20px;background-color:#414141;border-left:20px solid #00a2ca;}
