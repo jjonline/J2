@@ -25,34 +25,150 @@ function getLogImageAtt($logid) {
 	}
 	$logImageAtt    =  $CACHE->readCache('logimageatt');
 	if(!empty($logImageAtt) && !empty($logImageAtt[$logid])) {
-		//指定时间之后重建缓存以处理可能要替换文章附图的情况 暂不实现
-		return $logImageAtt[$logid]['url'];
+		//12小时候重建缓存以处理可能要替换文章附图的情况 默认不重建
+		// 若有12h后自动重建附图缓存的需求请注释后方return 并取消注释下方if语句 
+		// if($logImageAtt[$logid]['time']+12*3600>time()) {
+		// 	return $logImageAtt[$logid]['url'];
+		// }
+		return $logImageAtt[$logid]['url'];	
 	}
 	//缓存中不存在 建立缓存并返回数据
 	$Db             = MySql::getInstance();
 	$query          = $Db->query("SELECT * FROM " . DB_PREFIX . "attachment WHERE `blogid`=".$logid." ORDER BY `aid` DESC");
 	$_attcache      = TEMPLATE_URL.'images/noImg.png';
+	//待裁剪图片数据 优先使用已有220px*150px的附图
+	$_imageArr   	= array('rdir'=>'','cdir'=>'','width'=>0,'height'=>0);
 	while($row      = $Db->fetch_array($query)) {
 		if($row['width'] == 220 && $row['height'] == 150) {
 			$_attcache   = BLOG_URL.ltrim(ltrim($row['filepath'],'.'),'/');
 			break;
 		}
-		//dump($row);
+		$fileAbsoluteDir   		=  '.'.ltrim($row['filepath'],'.');//图片目录相对于入口文件的路径
+		$suffix 				=  strtolower(getFileSuffix($row['filepath']));
 		/*兼容老系统产生的无宽度、高度的图片尺寸*/
-		$suffix = strtolower(getFileSuffix($row['filepath']));
-		if(in_array($suffix, array('jpg', 'png', 'jpeg', 'gif'))) {
-			$fileAbsoluteDir = '.'.ltrim($row['filepath'],'.');//图片目录相对于入口文件的路径
-			$size = @getimagesize($fileAbsoluteDir);//读取图片尺寸情况
-			if(!empty($size) && $size[0]==220 && $size[1]==150) {
-				$_attcache   = BLOG_URL.ltrim(ltrim($row['filepath'],'.'),'/');
+		if(is_file($fileAbsoluteDir) && in_array($suffix, array('jpg', 'png', 'jpeg', 'gif')) && $row['width'] == 0 && $row['height'] == 0) {
+			$size =  @getimagesize($fileAbsoluteDir);//读取图片尺寸情况
+			//方法getimagesize存在异常 返回false和错误信息 抑制并退出
+			if(false===$size) {
 				break;
+			}
+			if($size[0]==220 && $size[1]==150) {
+				$_attcache     =  BLOG_URL.ltrim(ltrim($row['filepath'],'.'),'/');
+				break;
+			}else {
+				$row['width']  =  $size[0];
+				$row['height'] =  $size[1];
+			}
+		}
+		$fileCorpDir 		   =  '.'.ltrim(pathinfo($fileAbsoluteDir,PATHINFO_DIRNAME),'.').'/'.$logid.'.'.$suffix;//缩略图相对路径
+		//已存在裁剪缩略过的图不再执行裁剪缩略
+		//若要强行重建 请注释下方if语句 默认不强制重建
+		if(is_file($fileCorpDir)) {
+			$_attcache   	   =  BLOG_URL.ltrim(ltrim($fileCorpDir,'.'),'/');
+			break;
+		}
+		//收集尺寸最大的图片进行裁剪
+		if($row['width']>220 && $row['height']>150) {
+			if(is_file($fileAbsoluteDir) && ($row['width']>$_imageArr['width'] || $row['height']>$_imageArr['height'])) {
+				$_imageArr	   =  array('rdir'=>$fileAbsoluteDir,'cdir'=>$fileCorpDir,'width'=>$row['width'],'height'=>$row['height']);
 			}
 		}
 	}
+	//附图需要进行裁剪
+	if($_attcache == TEMPLATE_URL.'images/noImg.png' && $_imageArr['width']>0) {
+		$ret  	=  JcorpImage($_imageArr['rdir'],$_imageArr['cdir'],$_imageArr['width'],$_imageArr['height']);
+		if($ret) {
+			$_attcache         =  BLOG_URL.ltrim(ltrim($_imageArr['cdir'],'.'),'/');
+		}
+	}
 	//添加新单元数据
-	$logImageAtt[$logid] = array('url'=>$_attcache,'time'=>time());
+	$logImageAtt[$logid]	   =  array('url'=>$_attcache,'time'=>time());
 	$CACHE->cacheWrite(serialize($logImageAtt),'logimageatt');
 	return $_attcache;
+}
+/**
+ * @des 从左上角开始裁剪大图并缩略成220*150封面图
+ * @param rdir 源图dir
+ * @param cdir 裁剪后的封面图dir
+ * @param width  源图width
+ * @param height 源图height
+ * @return boolean 
+ */
+function JcorpImage($rdir,$cdir,$width,$height) {
+	//计算拷贝原图的大小和坐标
+	$rate         = 	min($width/220,$height/150);
+	$w            = 	$rate*220;
+	$h            = 	$rate*150;
+	//方法1：从左上角开始裁剪并缩略 请自我选择方式 并注释掉不用的裁剪位置方法
+	$x            = 	0;
+	$y            = 	0;
+	//方法2：居中开始裁剪并缩略 请自我选择方式 并注释掉不用的裁剪位置方法
+	// $x            = 	($width-$w)/2;
+	// $y            = 	($height-$h)/2;
+
+	switch (getFileSuffix($rdir)) {
+		case 'gif':
+            $source_image = imagecreatefromgif($rdir);
+            break;
+ 
+        case 'jpeg' || 'jpg':
+            $source_image = imagecreatefromjpeg($rdir);
+            break;
+ 
+        case 'png':
+            $source_image = imagecreatefrompng($rdir);
+            break;
+
+        default:
+            return false;
+            break;
+	}
+	if(function_exists('imagecopyresampled')) {
+		$target_image  = imagecreatetruecolor(220, 150);
+    	$cropped_image = imagecreatetruecolor($w, $h);
+    	imagecopy($cropped_image, $source_image, 0, 0, $x, $y, $w, $h);
+		imagecopyresampled($target_image, $cropped_image, 0, 0, 0, 0, 220, 150, $w, $h);
+	}elseif (function_exists('imagecopyresized')) {
+		$target_image  = imagecreate(220, 150);
+    	$cropped_image = imagecreate($w, $h);
+    	imagecopy($cropped_image, $source_image, 0, 0, $x, $y, $w, $h);
+		imagecopyresized($target_image, $cropped_image, 0, 0, 0, 0, 220, 150, $w, $h);
+	}else {
+		return false;
+	}
+	ImageDestroy($cropped_image);//销毁
+	switch (getFileSuffix($rdir)) {
+		case 'gif':
+            if (function_exists('imagegif') && imagegif($target_image, $cdir)) {
+				ImageDestroy($target_image);
+				return true;
+			} else {
+				return false;
+			}
+			break;
+ 
+        case 'jpeg' || 'jpg':
+            if (function_exists('imagejpeg') && imagejpeg($target_image, $cdir)) {
+				ImageDestroy($target_image);
+				return true;
+			} else {
+				return false;
+			}
+			break;
+ 
+        case 'png':
+            if (function_exists('imagepng') && imagepng($target_image, $cdir)) {
+				ImageDestroy($target_image);
+				return true;
+			} else {
+				return false;
+			}
+			break;
+
+        default:
+            return false;
+            break;
+	}	
 }
 
 /**
