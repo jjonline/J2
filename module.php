@@ -261,12 +261,12 @@ function blog_navi($logData=null,$logs=null){
         /*前台判定输出管理链接*/
 		if($value['url'] == ROLE_ADMIN && (ROLE == ROLE_ADMIN || ROLE == ROLE_WRITER)):
 			?>
-			<li class="item common" id="admin">
-				<a href="<?php echo BLOG_URL; ?>admin/">管理站点</a>
+			<li class="item" id="admin">
+				<a href="<?php echo BLOG_URL; ?>admin/" class="common">管理站点</a>
 				<ul class="navChirld">
-					<li class="itemChirld common"><a href="<?php echo BLOG_URL; ?>admin/twitter.php">发布碎语</a></li>
-					<li class="itemChirld common"><a href="<?php echo BLOG_URL; ?>admin/write_log.php">发布文章</a></li>
-					<li class="itemChirld common"><a href="<?php echo BLOG_URL; ?>admin/?action=logout">退出系统</a></li>
+					<li class="itemChirld"><a href="<?php echo BLOG_URL; ?>admin/twitter.php" class="commonChirld">发布碎语</a></li>
+					<li class="itemChirld"><a href="<?php echo BLOG_URL; ?>admin/write_log.php" class="commonChirld">发布文章</a></li>
+					<li class="itemChirld"><a href="<?php echo BLOG_URL; ?>admin/?action=logout" class="commonChirld">退出系统</a></li>
 				</ul>
 			</li>
 			<?php 
@@ -278,14 +278,14 @@ function blog_navi($logData=null,$logs=null){
         $current_tab  = $navi_info['parentSortUrl'] == $value['url'] ? 'current' : 'common';
 
 		?>
-		<li class="item <?php echo $current_tab;?>">
-			<a href="<?php echo $value['url']; ?>" <?php echo $newtab;if(BLOG_URL.'admin'==$value['url']){echo ' id="admin"';}?>><?php echo $value['naviname']; ?></a>
+		<li class="item">
+			<a href="<?php echo $value['url']; ?>" <?php echo $newtab;if(BLOG_URL.'admin'==$value['url']){echo ' id="admin"';}?> class="<?php echo $current_tab;?>"><?php echo $value['naviname']; ?></a>
 			<?php if (!empty($value['children'])) :?>
             <ul class="navChirld">
                 <?php foreach ($value['children'] as $row){
                 		$chirdUrl     = Url::sort($row['sid']);
                 		$current_tab  = $navi_info['chirldSortUrl'] == $chirdUrl ? 'currentChirld' : 'commonChirld';
-                        echo '<li class="itemChirld '.$current_tab.'"><a href="'.$chirdUrl.'">'.$row['sortname'].'</a></li>';
+                        echo '<li class="itemChirld"><a href="'.$chirdUrl.'" class="'.$current_tab.'">'.$row['sortname'].'</a></li>';
                 }?>
 			</ul>
             <?php endif;?>

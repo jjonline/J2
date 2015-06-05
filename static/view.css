@@ -67,21 +67,20 @@ a:hover{color:#00a2ca;text-decoration:none;}
 .mini_nav_btn {display:none;}
 .btn_nav {color:#FFF;border:none;height:52px;padding:0 20px;position:absolute;top:0;right:0;background-color:transparent;font-size:18px;}
 /**navi**/
-.nav {height:52px;float:left;position:relative;}
+.nav {height:52px;float:left;position:relative;display:block;}
 .nav .item {float:left;margin-right:1px;line-height:20px;}
 .nav .item a {display:block;position:relative;padding:16px 20px;}
-.nav .current a:visited {background:#333;}
-.nav .current a,.nav .current a:hover {display:block;padding:16px 20px;color:#eeeeee;background-color:#333;}
-.nav .common a {color:#eeeeee;}
-.nav .common a:visited {background:#4a4a4a;}
-.nav .common a:hover {display:block;padding:16px 20px;color:#eeeeee;background-color:#333;}
-.nav .item:hover {background-color:#333;}
-.nav .item:hover>.navChirld{display:block;}
-.nav .navChirld {position:absolute;padding-bottom:8px;top:52px;min-width:120px;background-color:#333;left:0;display:none;z-index:10;}
+.nav .common,.nav .common:visited {color:#eee;background:#4a4a4a;}
+.nav .common:hover {color:#eee;background:#333;}
+.nav .current,.nav .current:visited {background-color:#333;color:#eee;}
+.nav .navChirld {position:absolute;top:52px;min-width:120px;background-color:#333;left:0;display:none;z-index:10;}
 .nav .navChirld .itemChirld {position:relative;font-size:13px;}
-.nav .itemChirld a {display:block;line-height:20px;background-color:#333;padding:5px 20px 4px;}
-.nav .itemChirld a:hover {display:block;line-height:20px;background-color:#00a2ca;padding:5px 20px 4px;}
-.nav .navChirld .currentChirld a {display:block;line-height:20px;background-color:#00a2ca;padding:5px 20px 4px;}
+.nav .item:hover>.navChirld{display:block;}
+.nav .item:hover>a{background:#333;}
+.nav .itemChirld a,.nav .itemChirld a:visited {display:block;line-height:25px;padding:5px 20px 4px;}
+.nav .commonChirld,.nav .commonChirld:visited {color:#eee;background-color:#333;}
+.nav .commonChirld:hover {color:#eee;background-color:#00a2ca;}
+.nav .currentChirld {color:#eee;background-color:#00a2ca;}
 /**top search**/
 .search {margin:11px 12px 0 0;float:right;}
 .searchForm {display:block;}
@@ -429,14 +428,20 @@ pre.prettyprint.linenums ol li {margin:0;padding-left: 12px;color: #bebec5;line-
 	.article_exp_header a:visited {colo:#00a2ca;}
 }
 @media (max-width:640px){
-	.nav {position:absolute;width:100%;z-index:10000;height:auto;top:52px;}
+	.nav {position:absolute;width:100%;z-index:10000;height:auto;top:52px;display:none;}
 	.nav .item{position:relative;float:none;width:100%;}
 	.nav .item a {background:#4a4a4a;}
+	.nav .item a:hover {background-color:#00a2ca;}
+    .nav .common,.nav .common:visited,.nav .commonChirld,.nav .commonChirld:visited {background:#4a4a4a;}
+    .nav .current,.nav .current:visited,.nav .currentChirld,.nav .currentChirld:visited {background:#00a2ca;}  
 	.nav .navChirld {position:relative;display:block;top:0;padding:0;}
+    .nav .current a,.nav .current a:visited {background-color:#00a2ca;}
 	.nav .itemChirld {position:relative;float:none;width:100%;padding:0;}
 	.nav .itemChirld a {text-indent:25px;padding:16px 20px;}
-	.nav .navChirld .currentChirld a {padding:16px 20px;}
-	#admin,.foh,.newTwiter,.article_position,.article_nav,.comment_face_btn,.comment_avator,.article_share{display:none;}
+	.nav .itemChirld a:hover {text-indent:25px;padding:16px 20px;}
+	.nav .navChirld .currentChirld a {padding:16px 20px;}    
+	#admin,.foh,.newTwiter,.article_position,.article_nav,.comment_face_btn,.comment_avator,.article_share,.addTwiterAvatar{display:none;}
+    .addTwiterContainer {padding:10px;}
 	.article_content,.article_footer{padding:10px;}
 	.article_content p {font-size:17px;line-height:28px;}
 	.article_content h2 {margin:20px 0 20px -4px;}
