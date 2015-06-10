@@ -137,38 +137,40 @@ function JcorpImage($rdir,$cdir,$width,$height) {
 		return false;
 	}
 	ImageDestroy($cropped_image);//销毁
+	$status  =  false;
 	switch (getFileSuffix($rdir)) {
 		case 'gif':
             if (function_exists('imagegif') && imagegif($target_image, $cdir)) {
 				ImageDestroy($target_image);
-				return true;
+				$status =  true;
 			} else {
-				return false;
+				$status =  false;
 			}
 			break;
  
         case 'jpeg' || 'jpg':
             if (function_exists('imagejpeg') && imagejpeg($target_image, $cdir)) {
 				ImageDestroy($target_image);
-				return true;
+				$status =  true;
 			} else {
-				return false;
+				$status =  false;
 			}
 			break;
  
         case 'png':
             if (function_exists('imagepng') && imagepng($target_image, $cdir)) {
 				ImageDestroy($target_image);
-				return true;
+				$status =  true;
 			} else {
-				return false;
+				$status =  false;
 			}
 			break;
 
         default:
-            return false;
+            $status =  false;
             break;
-	}	
+	}
+	return $status;	
 }
 
 /**
