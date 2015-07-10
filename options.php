@@ -1,4 +1,5 @@
 <?php
+/*@support tpl_options*/
 /*
  * @J2模板设置插件相关配置项
  * @authors Ajing (JJonline@JJonline.Cn)
