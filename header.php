@@ -37,6 +37,9 @@ check_theme_plugin();
 <script src="<?php echo BLOG_URL; ?>include/lib/js/common_tpl.js" type="text/javascript"></script>
 <!--[if lt IE 9]><script src="http://apps.bdimg.com/libs/html5shiv/r29/html5.min.js"></script><![endif]-->
 <?php doAction('index_head'); ?>
+<style type="text/css">
+.logo {background-position:50% 50%;background-repeat:no-repeat;background-image:url(<?php echo _g('logo');?>);}
+</style>
 </head>
 <body>
 <header class="header">
