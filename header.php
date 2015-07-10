@@ -2,7 +2,7 @@
 /*
 Template Name:J2
 Description:晶晶的博客开源扁平化自适应模板<a href="http://blog.jjonline.cn/theme/J2.html" target=_blank>勾贰</a>
-Version:1.2
+Version:1.2(Release20150710)
 Author:Jea杨
 Author Url:http://blog.jjonline.cn
 Sidebar Amount:1
