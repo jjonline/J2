@@ -9,6 +9,7 @@ Sidebar Amount:1
 */
 if(!defined('EMLOG_ROOT')) {exit('error!');}
 require_once View::getView('module');
+check_theme_plugin();
 ?>
 <!DOCTYPE HTML>
 <html lang="zh-cn">
@@ -52,6 +53,6 @@ require_once View::getView('module');
 	</div>
 </header>
 <div class="container">
-	<div class="pull-right snsPanel"><a href="http://weibo.com/511456119" target=_blank class="sns ico-sns-sina">新浪微薄</a><a href="http://t.qq.com/jjonline" target=_blank class="sns ico-sns-qq">腾讯微薄</a></div>
+	<div class="pull-right snsPanel"><a href="<?php echo _g('sina_wb');?>" target=_blank class="sns ico-sns-sina">新浪微薄</a><a href="<?php echo _g('qq_wb');?>" target=_blank class="sns ico-sns-qq">腾讯微薄</a></div>
 	<div class="newTwiter"><p><strong>最新碎语：</strong><?php echo newSignletwiter(); ?></p></div>
 </div>

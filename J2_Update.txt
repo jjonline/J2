@@ -2,9 +2,24 @@ V1.2 Update
 Bugfix
 1、博文正文正则匹配函数语法错误
 2、自动截图功能对png格式的图片裁剪错误的问题修复并增强自动裁剪图片的功能
+3、【文章中插入的图片均强制标准居中】最大限度的自适应博文中的图片
+对博文中p标签嵌套的a和img标签进行可选正则匹配取消，默认进行替换
+	例如博文中如下标签：
+	<p style="xx"><a target=_blank href="http://xxx.cn/726f1436512023.jpg" title="点击查看原图"><img src="http://xxx.cn/726f1436512023.jpg" title="点击查看原图" alt="刘若英.jpg" width="1200" height="800" border="0"></a></p>
+	将被替换成：
+	<div class="article_image"><img src="http://xxx.cn/726f1436512023.jpg" title="点击查看原图" alt="刘若英.jpg"></div>
+	===
+	包括如下变形：
+	<p style="xx"><img src="http://xxx.cn/726f1436512023.jpg" title="点击查看原图" alt="刘若英.jpg" width="1200" height="800" border="0"></p>
+	也会被替换成：
+	<div class="article_image"><img src="http://xxx.cn/726f1436512023.jpg" title="点击查看原图" alt="刘若英.jpg"></div>
+
 
 Add
 1、启用模板插件，方便后台快速设置个性选项
+2、模板设置中可以自定义自己的微博地址、logo图片
+3、自定义文章附图裁剪位置，自定义文章附图是否每隔12小时自动强制更新（当更新文章以及文章中图片后可以启用）
+3、添加随机默认文章附图的功能，自定义的220px*150px大小的随机文章附图上传至./content/templates/J2/images/randoms/目录下即可，图片名不得为中文！
 
 
 ==============================================================================================

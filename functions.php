@@ -4,9 +4,18 @@
  * @authors Jea杨 (JJonline@JJonline.Cn)
  * @date    2014-12-07
  * @date    2015-06-01 fixed
- * @version 1.1
+ * @date    2015-07-10 fixed
+ * @version 1.2
  */
 if(!defined('EMLOG_ROOT')) {exit('J2 Functions Requrire Emlog!');}
+/**
+ * @des 检测博客是否安装模板设置插件
+ */
+function check_theme_plugin() {
+	if(!function_exists('_g')) {
+		exit('<div style="font-family:Microsoft Yahei;display:block;padding:9.5px;margin:0 0 10px;font-size:14px;line-height:1.42857143;color:#333;  word-break: break-all;word-wrap: break-word;background-color: #f5f5f5;border:1px solid #ccc;border-radius: 4px;"><p style="color:f60;text-align:center">J2主题从1.2版本开始需启用“模板设置”插件；更方便的模板设置和更加个性化</p><p style="color:f60;text-align:center">请先前往emlog下载该并安装启用该插件：地址：<a href="http://www.emlog.net/plugin/144" target=_blank style="color:#09f;text-decoration:underline;">http://www.emlog.net/plugin/144</a></p></div>');
+	}
+}
 /**
  * @des 获取指定logid的附图 方法体内部自动实现查询、缓存 提升系统执行效率
  * @des 注意：本方法额外添加了一个logimageatt缓存字段 方法体外部不宜调用该字段
@@ -26,11 +35,13 @@ function getLogImageAtt($logid) {
 	$logImageAtt    =  $CACHE->readCache('logimageatt');
 	if(!empty($logImageAtt) && !empty($logImageAtt[$logid])) {
 		//12小时候重建缓存以处理可能要替换文章附图的情况 默认不重建
-		// 若有12h后自动重建附图缓存的需求请注释后方return 并取消注释下方if语句 
-		// if($logImageAtt[$logid]['time']+12*3600>time()) {
-		// 	return $logImageAtt[$logid]['url'];
-		// }
-		return $logImageAtt[$logid]['url'];	
+		if(_g('up_cache')) {
+			if($logImageAtt[$logid]['time']+12*3600>time()) {
+				return $logImageAtt[$logid]['url'];
+			}
+		}else{
+			return $logImageAtt[$logid]['url'];
+		}
 	}
 	//缓存中不存在 建立缓存并返回数据
 	$Db             = MySql::getInstance();
@@ -60,10 +71,10 @@ function getLogImageAtt($logid) {
 				$row['height'] =  $size[1];
 			}
 		}
-		$fileCorpDir 		   =  '.'.ltrim(pathinfo($fileAbsoluteDir,PATHINFO_DIRNAME),'.').'/'.$logid.'.'.$suffix;//缩略图相对路径
-		//已存在裁剪缩略过的图不再执行裁剪缩略
-		//若要强行重建 请注释下方if语句 默认不强制重建
-		if(is_file($fileCorpDir)) {
+		//缩略图相对路径 强行指定缩略图为jpg后缀格式
+		$fileCorpDir 		   =  '.'.ltrim(pathinfo($fileAbsoluteDir,PATHINFO_DIRNAME),'.').'/'.$logid.'.jpg';
+		//依据设置参数进行是否强行重建
+		if(is_file($fileCorpDir) && !_g('up_cache')) {
 			$_attcache   	   =  BLOG_URL.ltrim(ltrim($fileCorpDir,'.'),'/');
 			break;
 		}
@@ -81,11 +92,76 @@ function getLogImageAtt($logid) {
 			$_attcache         =  BLOG_URL.ltrim(ltrim($_imageArr['cdir'],'.'),'/');
 		}
 	}
+	//是否启用随机默认附图
+	if($_attcache == TEMPLATE_URL.'images/noImg.png' && _g('open_rdm')) {
+		$randomeImage = list_dir_file(EMLOG_ROOT.'/content/templates/J2/images/randoms/');
+		$max 		  = count($randomeImage);
+		$rdmKey       = rand(0,$max);
+		$_attcache    = $randomeImage[$rdmKey];
+	}
 	//添加新单元数据
 	$logImageAtt[$logid]	   =  array('url'=>$_attcache,'time'=>time());
 	$CACHE->cacheWrite(serialize($logImageAtt),'logimageatt');
 	return $_attcache;
 }
+
+/**
+ * @des 列出文件夹中的一级目录中的所有图片格式文件
+ * @param dir 文件夹目录dir
+ * @return array ['imgUrl','imgUrl']
+ */
+function list_dir_file($dir) {
+	$dir = rtrim($dir,'/').'/';	
+	$dirArray = array();
+	//glob方法遍历
+	if(function_exists('glob')) {
+		if(false != ($handle = glob($dir.'*'))) {
+			foreach ($handle as $key => $value) {
+				$dirArray[$key] = TEMPLATE_URL.'images/randoms/'.str_replace($dir,'',$value);
+			}
+		}
+	//opendir、readdir方法遍历----倘若用户禁止了opendir后台是无法运行的！！
+	}else if(function_exists('opendir') && function_exists('readdir')) {
+		if(false != ($handle = @opendir($dir))) {
+			$i = 0;
+			while (false !== ($file = readdir($handle))) {
+				//减轻服务器压力，不再遍历randoms目录下的目录
+				if(is_file($dir.$file)) {
+					if($file=='.' || $file=='..') {continue;}
+					$dirArray[$i] = TEMPLATE_URL.'images/randoms/'.$file;
+					$i ++;
+				}
+			}
+			closedir ($handle);
+		}
+	//dir方法遍历
+	}else if(function_exists('dir')){
+		if(false != ($handle = @dir($dir))){  
+			//列出目录中的文件
+			$i = 0;
+			while(($file = $handle->read())!==false){  
+				if(is_file($dir.$file)) {   
+					if($file=='.' || $file=='..') {continue;}
+					$dirArray[$i] = TEMPLATE_URL.'images/randoms/'.$file;
+					$i ++;
+				}
+			}  
+			$handle->close();
+		}
+	//遍历目录方法均无法使用 返回默认三个随机图
+	}else {
+		return array(TEMPLATE_URL.'images/noImg.png',TEMPLATE_URL.'images/noImg1.png',TEMPLATE_URL.'images/noImg2.png');
+	}
+	//仅需要图片
+	$ImageArry  		 = array();
+	foreach ($dirArray as $key => $value) {
+		if(in_array(pathinfo($value,PATHINFO_EXTENSION), array('jpg','jpeg','gif','bmp','png'))) {
+			$ImageArry[] = $value;
+		}
+	}
+	return $ImageArry;
+}
+
 /**
  * @des 从左上角开始裁剪大图并缩略成220*150封面图
  * @param rdir 源图dir
@@ -99,29 +175,51 @@ function JcorpImage($rdir,$cdir,$width,$height) {
 	$rate         = 	min($width/220,$height/150);
 	$w            = 	$rate*220;
 	$h            = 	$rate*150;
-	//方法1：从左上角开始裁剪并缩略 请自我选择方式 并注释掉不用的裁剪位置方法
-	$x            = 	0;
-	$y            = 	0;
-	//方法2：居中开始裁剪并缩略 请自我选择方式 并注释掉不用的裁剪位置方法
-	// $x            = 	($width-$w)/2;
-	// $y            = 	($height-$h)/2;
-
-	switch (getFileSuffix($rdir)) {
-		case 'gif':
-            $source_image = imagecreatefromgif($rdir);
+	//裁剪并缩略位置控制  模板设置可控制
+	switch(_g('corp_pos')){
+		case '1':
+			//方法1：从左上角开始裁剪并缩略
+			$x 	  = 	0;
+			$y 	  = 	0;
+			break;
+		case '2':
+			//方法2：从右上角开始裁剪并缩略
+			$x 	  = 	$width-$w;
+			$y 	  = 	0;
+			break;
+		case '3':
+			//方法3：从左下角开始裁剪并缩略
+			$x 	  = 	0;
+			$y 	  = 	$height-$h;
+			break;
+		case '4':
+			//方法4：从左下角开始裁剪并缩略
+			$x 	  = 	$width-$w;
+			$y 	  = 	$height-$h;
+			break;
+		default:
+            //默认：居中开始裁剪并缩略
+			$x 	  = 	($width-$w)/2;
+			$y 	  = 	($height-$h)/2;
             break;
- 
-        case 'jpeg' || 'jpg':
-            $source_image = imagecreatefromjpeg($rdir);
-            break;
- 
-        case 'png':
-            $source_image = imagecreatefrompng($rdir);
-            break;
-
-        default:
-            return false;
-            break;
+	}
+	if (function_exists('imagecreatefromstring')) {
+		$source_image 		  = imagecreatefromstring(file_get_contents($rdir));
+	}else {
+		switch(getFileSuffix($rdir)) {
+			case 'gif':
+	            $source_image = imagecreatefromgif($rdir);
+	            break;
+	        case 'jpeg' || 'jpg':
+	            $source_image = imagecreatefromjpeg($rdir);
+	            break;	 
+	        case 'png':
+	            $source_image = imagecreatefrompng($rdir);
+	            break;
+	        default:
+	            return false;
+	            break;
+		}
 	}
 	if(function_exists('imagecopyresampled')) {
 		$target_image  = imagecreatetruecolor(220, 150);
@@ -137,56 +235,34 @@ function JcorpImage($rdir,$cdir,$width,$height) {
 		return false;
 	}
 	ImageDestroy($cropped_image);//销毁
-	$status  =  false;
-	switch (getFileSuffix($rdir)) {
-		case 'gif':
-            if (function_exists('imagegif') && imagegif($target_image, $cdir)) {
-				ImageDestroy($target_image);
-				$status =  true;
-			} else {
-				$status =  false;
-			}
-			break;
- 
-        case 'jpeg' || 'jpg':
-            if (function_exists('imagejpeg') && imagejpeg($target_image, $cdir)) {
-				ImageDestroy($target_image);
-				$status =  true;
-			} else {
-				$status =  false;
-			}
-			break;
- 
-        case 'png':
-            if (function_exists('imagepng') && imagepng($target_image, $cdir)) {
-				ImageDestroy($target_image);
-				$status =  true;
-			} else {
-				$status =  false;
-			}
-			break;
-
-        default:
-            $status =  false;
-            break;
+	if(function_exists('imagejpeg') && imagejpeg($target_image,$cdir,100)) {
+		ImageDestroy($target_image);
+		$status =  true;
+	}else {
+		$status =  false;
 	}
-	return $status;	
+	return $status;
 }
 
+//兼容php5.2的正则回调函数
+function preg_call_back($m) {
+	if(is_array($m)) {
+		$node = preg_replace('/width=\"\d+\"/i','',$m[2]);//去掉img标签设置的width
+		$node = preg_replace('/height=\"\d+\"/i','',$node);//去掉img标签设置的height
+		$node = preg_replace('/border=\"\d+\"/i','',$node);//去掉img标签设置的border属性
+		return '<div class="article_image">'.$node.'</div>';
+	}
+}
 /**
  * @des 处理日志正文中的图片包裹标签  若被p标签包裹就要替换掉p标签
  * @param content 日志正文
  * @return string 
  */
 function handleContent($content) {
-	// $content     = preg_replace("/[\t\n\r]+/","",$content);//去除换行符、回车、制表符
-	$pcre        = '/<p[^>]*>\s*(<img\s+src=".*?"\s+.*?\/*>)\s*<\/p>/i';
-	$pcrecontent = preg_replace_callback($pcre,function ($m) {
-		if(is_array($m)) {
-			return '<div class="article_image">'.$m[1].'</div>';
-		}
-
-	},$content);
+	if(!_g('is_preg')) {return $content;}
+	$pcre        = '/<p[^>]*>\s*(<a[^>]*>){0,1}\s*(<img\s+src=".*?"\s+.*?\/*>)\s*(<\/a>){0,1}\s*<\/p>/i';
+	//正则匹配版本进行处理
+	$pcrecontent = preg_replace_callback($pcre,preg_call_back,$content);		
 	if($pcrecontent) {return $pcrecontent;}
 	return $content;
 }
