@@ -1,3 +1,14 @@
+V1.2 Update
+Bugfix
+1、博文正文正则匹配函数语法错误
+2、自动截图功能对png格式的图片裁剪错误的问题修复并增强自动裁剪图片的功能
+
+Add
+1、启用模板插件，方便后台快速设置个性选项
+
+
+==============================================================================================
+V1.1 20150610 Release Update
 BugFix
 1、修复导航栏下拉菜单背景色问题
 2、修复文章页面tag标签属性，阻止搜索引擎抓取文章页tag----文章页tag太多会被搜索引擎惩罚性降权
@@ -16,3 +27,4 @@ Catag
 1、commet post url /index.php?action=addcom {http302=>success,200=>error}
 2、Twiter post url /admin/twitter.php?action=post {http302=>success,200=>error}
 #jQuery ajax 302 http status do not Capture
+==============================================================================================
