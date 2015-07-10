@@ -95,7 +95,7 @@ function getLogImageAtt($logid) {
 	//是否启用随机默认附图
 	if($_attcache == TEMPLATE_URL.'images/noImg.png' && _g('open_rdm')) {
 		$randomeImage = list_dir_file(EMLOG_ROOT.'/content/templates/J2/images/randoms/');
-		$max 		  = count($randomeImage);
+		$max 		  = count($randomeImage)-1;
 		$rdmKey       = rand(0,$max);
 		$_attcache    = $randomeImage[$rdmKey];
 	}
