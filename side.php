@@ -3,7 +3,7 @@
  * @J2 侧边栏
  * @authors Ajing (JJonline@JJonline.Cn)
  * @date    2014-12-09
- * @version $Id$
+ * @version 1.2
  */
 if(!defined('EMLOG_ROOT')) {exit('error!');} 
 ?>

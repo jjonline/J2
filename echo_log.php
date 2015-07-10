@@ -3,7 +3,7 @@
  * @显示日志文章模板
  * @authors Ajing (JJonline@JJonline.Cn)
  * @date    2014-12-10
- * @version $Id$
+ * @version 1.2
  */
 if(!defined('EMLOG_ROOT')) {exit('error!');} 
 ?>

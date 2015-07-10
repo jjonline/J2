@@ -3,7 +3,7 @@
  * @模板控制器方法集合
  * @authors Ajing (JJonline@JJonline.Cn)
  * @date    2014-12-07
- * @version $Id$
+ * @version 1.2
  */
 if(!defined('EMLOG_ROOT')) {exit('error!');} 
 require_once('functions.php');

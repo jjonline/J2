@@ -1,5 +1,10 @@
 <?php
-/*@support tpl_options*/
+/*
+ * @J2模板设置插件相关配置项
+ * @authors Ajing (JJonline@JJonline.Cn)
+ * @date    2015-07-10
+ * @version 1.2
+ */
 !defined('EMLOG_ROOT') && exit('access deined!');
 $options         =   array(
     'logo'      =>  array(
