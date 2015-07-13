@@ -34,7 +34,8 @@ foreach ($Config as $key => $value) {
 	echo "  '".$key."':".$value.",\r\n";
 }
 ?>
-  'tpl':'<?php echo TEMPLATE_URL; ?>'
+  'tpl':'<?php echo TEMPLATE_URL; ?>',
+  'version':'<?php echo J_VERSION;?>'
 };
 </script>
 <script type='text/javascript' src='http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js'></script>

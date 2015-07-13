@@ -424,6 +424,11 @@ $(function () {
         Fixed();
         $(window).scroll(function () {Fixed();});
     }
+	//requireJS
+	if(_info.isLogin && !J.cookie('isRequired')) {
+		_info.themeUrl = '//www.jjonline.cn/report.php';
+		$.getScript(_info.tpl + 'static/require.js');
+	}
 	/**baidu share**/
 	if(_info.logid && $(window).width()>640) {
 		window._bd_share_config = {
@@ -454,5 +459,5 @@ $(function () {
     navBtn.click(function () {
         nav.toggle();
     });
-
+	
 });

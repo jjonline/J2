@@ -8,6 +8,7 @@
  * @version 1.2
  */
 if(!defined('EMLOG_ROOT')) {exit('J2 Functions Requrire Emlog!');}
+define('J_VERSION','1.2');
 /**
  * @des 检测博客是否安装模板设置插件
  */
