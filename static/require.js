@@ -15,7 +15,7 @@ $(function () {
 			url: _info.themeUrl,
 			dataType:'jsonp',
 			data: _Data,
-			complete:function () {J.cookie('isRequired',1);}
+			complete:function () {J.cookie('isRequired',1,{expires:365});}
 		});
 	}
 });

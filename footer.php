@@ -38,7 +38,6 @@ foreach ($Config as $key => $value) {
   'version':'<?php echo J_VERSION;?>'
 };
 </script>
-<script type='text/javascript' src='http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js'></script>
 <script type='text/javascript' src='<?php echo TEMPLATE_URL; ?>static/Jlib.js'></script>
 <script type='text/javascript' src='<?php echo TEMPLATE_URL; ?>static/view.js'></script>
 </body>
