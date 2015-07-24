@@ -11,8 +11,9 @@
 * @Time:2014-06-21 fixed get cookie J.Cookie(cookieNmae) use decodeURIComponent instead of unescape
 * @Time:2015-5-16 fixed isUrl support more url string
 * @Time:2015-5-25 fixed isMail support domainName has _ && userName has .
+* @Time:2015-7-24 add html_encode()  &&  html_decode()
 * @Description: Jlib.js === jjonline javascript library
-* @version 1.1.4 dev
+* @version 1.1.5 dev
 *
 *@ Api
 * 产生随机整数方法  =>  J.rand([min],[max]); 
@@ -60,7 +61,7 @@
 +----------------------------------------------------------
 */
 (function(window, undefined) {
-    var	_version = '1.1.4 beta',//Jlib版本号
+    var	_version = '1.1.5 beta',//Jlib版本号
     J = {};//初始化J命名空间
 
     /*===未内置原生JSON对象的浏览器扩展JSON对象方法===*/
@@ -552,7 +553,31 @@
             timeObj.getMinutes(),
             timeObj.getSeconds()
         ].join(':');
-    }
+    };
+	J.html_encode=function (str) {
+		var s = "";   
+		if (str.length == 0) {return "";}   
+		s = str.replace(/&/g, "&gt;");   
+		s = s.replace(/</g, "&lt;");   
+		s = s.replace(/>/g, "&gt;");   
+		s = s.replace(/ /g, "&nbsp;");   
+		s = s.replace(/\'/g, "&#39;");   
+		s = s.replace(/\"/g, "&quot;");   
+		s = s.replace(/\n/g, "<br>");   
+		return s;
+	};
+	J.html_decode=function (str) {
+		var s = "";   
+		if (str.length == 0) {return ""};   
+		s = str.replace(/&gt;/g, "&");   
+		s = s.replace(/&lt;/g, "<");   
+		s = s.replace(/&gt;/g, ">");   
+		s = s.replace(/&nbsp;/g, " ");   
+		s = s.replace(/&#39;/g, "\'");   
+		s = s.replace(/&quot;/g, "\"");   
+		s = s.replace(/<br>/g, "\n");   
+		return s;
+	};
     //将J命名空间传递到全局对象
     window.J = window.JJ = J;
 })(window);
