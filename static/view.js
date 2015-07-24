@@ -37,7 +37,7 @@ $(function () {
                     content = content.replace(regxe, '<img src="' + _info.tpl + n.img + '">');
                 }
             });
-            return content;
+            return J.html_encode(content);
         };
         /**control btn status**/
         function DisabledBtn(isDisabled,time) {
@@ -320,7 +320,7 @@ $(function () {
                         var _newNode = [
                             '<li class="twiter_list" style="background:#FBFCE7;">',
                                 '<img src="'+$('.twiter_list img').attr('src')+'" alt="'+$('.twiter_list img').attr('alt')+'" class="twiter_avatar" />',
-                                '<p class="twiter_content">'+_Data.t+'</p>',
+                                '<p class="twiter_content">'+J.html_encode(_Data.t)+'</p>',
                                 '<p class="twiter_info"><span class="twiter_author">'+$('.twiter_list img').attr('alt')+'</span><span class="twiter_time"><i class="fa fa-clock-o"></i> 刚刚</span></p>',
                             '</li>'
                         ].join('');
