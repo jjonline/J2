@@ -248,7 +248,7 @@ function JcorpImage($rdir,$cdir,$width,$height) {
 //兼容php5.2的正则回调函数
 function preg_call_back($m) {
 	if(is_array($m)) {
-		$node = preg_replace('/width=\"\d+\"/i','',$m[2]);//去掉img标签设置的width
+		$node = preg_replace('/width=\"\d+\"/i','',$m[1]);//去掉img标签设置的width
 		$node = preg_replace('/height=\"\d+\"/i','',$node);//去掉img标签设置的height
 		$node = preg_replace('/border=\"\d+\"/i','',$node);//去掉img标签设置的border属性
 		return '<div class="article_image">'.$node.'</div>';
@@ -261,7 +261,7 @@ function preg_call_back($m) {
  */
 function handleContent($content) {
 	if(!_g('is_preg')) {return $content;}
-	$pcre        = '/<p[^>]*>\s*(<a[^>]*>){0,1}\s*(<img\s+src=".*?"\s+.*?\/*>)\s*(<\/a>){0,1}\s*<\/p>/i';
+	$pcre        = '/<p[^>]*>\s*(?:<span[^>]*>){0,1}\s*(?:<a[^>]*>){0,1}\s*(?:<span[^>]*>){0,1}\s*(<img[^>]*>)\s*(?:<\/span>){0,1}\s*(?:<\/a>){0,1}\s*(?:<\/span>){0,1}\s*<\/p>/i';
 	//正则匹配版本进行处理
 	$pcrecontent = preg_replace_callback($pcre,preg_call_back,$content);		
 	if($pcrecontent) {return $pcrecontent;}
