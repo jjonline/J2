@@ -27,7 +27,7 @@ $(function () {
             _PostSubBtnNode  = $('#comment_submit');
         //handle conmment emoji
         function HandlComment(str) {
-            var ct = str,
+            var ct = J.html_encode(str),
                 content = '';
             $.each(face, function(i, n) {
                 var regxe = new RegExp('\\' + n.title.toString(), 'gm');
@@ -37,7 +37,7 @@ $(function () {
                     content = content.replace(regxe, '<img src="' + _info.tpl + n.img + '">');
                 }
             });
-            return J.html_encode(content);
+            return content;
         };
         /**control btn status**/
         function DisabledBtn(isDisabled,time) {
