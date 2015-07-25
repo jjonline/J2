@@ -164,7 +164,7 @@ function list_dir_file($dir) {
 }
 
 /**
- * @des 从左上角开始裁剪大图并缩略成220*150封面图
+ * @des 裁剪大图并缩略成220*150封面图
  * @param rdir 源图dir
  * @param cdir 裁剪后的封面图dir
  * @param width  源图width
@@ -172,6 +172,7 @@ function list_dir_file($dir) {
  * @return boolean 
  */
 function JcorpImage($rdir,$cdir,$width,$height) {
+	if(!is_file($rdir)) {return false;}#当源图不存在时没必要执行裁剪
 	//计算拷贝原图的大小和坐标
 	$rate         = 	min($width/220,$height/150);
 	$w            = 	$rate*220;
@@ -199,7 +200,7 @@ function JcorpImage($rdir,$cdir,$width,$height) {
 			$y 	  = 	$height-$h;
 			break;
 		default:
-            //默认：居中开始裁剪并缩略
+			//默认：居中开始裁剪并缩略
 			$x 	  = 	($width-$w)/2;
 			$y 	  = 	($height-$h)/2;
             break;
