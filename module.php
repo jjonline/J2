@@ -436,7 +436,7 @@ function blog_comments($comments,$comnum){
 	$isGravatar 	   = Option::get('isgravatar');
 	foreach($commentStacks as $cid):
     $comment 		   = $comments[$cid];
-	$isNofollow   	   = isset($comment['url']) && (false===strpos($comment['url'],BLOG_URL)) ? 'rel="nofollow"':'';
+	$isNofollow   	   = isset($comment['url']) && (false===strpos($comment['url'],rtrim(BLOG_URL,'/'))) ? 'rel="nofollow"':'';
 	$comment['poster'] = $comment['url'] ? '<a href="'.$comment['url'].'" target="_blank" '.$isNofollow.'>'.$comment['poster'].'</a>' : $comment['poster'];
 	?>
 	<div class="comment dpt_line" id="comment-<?php echo $comment['cid']; ?>">
@@ -465,7 +465,7 @@ function blog_comments_children($comments, $children){
 	$isGravatar = Option::get('isgravatar');
 	foreach($children as $child):
 	$comment 		   = $comments[$child];
-	$isNofollow   	   = isset($comment['url']) && (false===strpos($comment['url'],BLOG_URL)) ? 'rel="nofollow"':'';
+	$isNofollow   	   = isset($comment['url']) && (false===strpos($comment['url'],rtrim(BLOG_URL,'/'))) ? 'rel="nofollow"':'';
 	$comment['poster'] = $comment['url'] ? '<a href="'.$comment['url'].'" target="_blank" '.$isNofollow.'>'.$comment['poster'].'</a>' : $comment['poster'];
 	?>
 	<div class="comment comment-children" id="comment-<?php echo $comment['cid']; ?>">
