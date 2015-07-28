@@ -262,7 +262,7 @@ function preg_call_back($m) {
  */
 function handleContent($content) {
 	if(!_g('is_preg')) {return $content;}
-	$pcre        = '/<p[^>]*>\s*(?:<span[^>]*>){0,1}\s*(?:<a[^>]*>){0,1}\s*(?:<span[^>]*>){0,1}\s*(<img[^>]*>)\s*(?:<\/span>){0,1}\s*(?:<\/a>){0,1}\s*(?:<\/span>){0,1}\s*<\/p>/i';
+	$pcre        = '/<p[^>]*>\s*(?:<span[^>]*>){0,1}\s*(?:<strong[^>]*>){0,1}\s*(?:<a[^>]*>){0,1}\s*(<img[^>]*>)\s*(?:<\/a>){0,1}\s*(?:<\/strong>){0,1}\s*(?:<\/span>){0,1}\s*<\/p>/i';
 	//正则匹配版本进行处理
 	$pcrecontent = preg_replace_callback($pcre,preg_call_back,$content);		
 	if($pcrecontent) {return $pcrecontent;}
