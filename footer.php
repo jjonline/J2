@@ -11,6 +11,7 @@ if(!defined('EMLOG_ROOT')) {exit('error!');}
 				<li class="fo"><a href="<?php echo $blogurl; ?>" target=_blank><?php echo $blogname; ?></a>&copy;<?php echo date('Y')?></li>
 				<li class="fo foh"><i class="fa fa-hand-o-right"></i> 支持国产软件<a href="http://www.emlog.net" target=_blank>emlog</a></li>
 				<li class="fo foh"><i class="fa fa-hand-o-right"></i> Theme By <?php /*请保留版权信息的前提下使用本主题*/ ?><a href="http://blog.jjonline.cn">晶晶的博客</a></li>
+				<li class="fo foh"><i class="fa fa-hand-o-right"></i> <a href="<?php echo BLOG_URL.'admin/'?>">后台管理</a></li>
 				<?php if(!empty($icp)):?><li class="fo foh"><a href="http://www.miibeian.gov.cn" target="_blank"><?php echo $icp; ?></a></li><?php endif;?>
 				<?php if (Option::get('rss_output_num')):?><li class="pull-right"><a href="<?php echo BLOG_URL; ?>rss.php" title="RSS订阅" target=_blank>订阅RSS</a></li><?php endif;?>
 			</ul>
