@@ -493,6 +493,17 @@ function blog_comments_children($comments, $children){
 //blog：发表评论表单
 function blog_comments_post($logid,$ckname,$ckmail,$ckurl,$verifyCode,$allow_remark){
 	if($allow_remark == 'y'): ?>
+	<?php
+		#J2适配Juser代码
+		$JuserSatus     =  'block';
+		if(class_exists('Juser')) {
+			$JuserInfo  =  Juser::isLogin();
+			$ckname     =  $JuserInfo['name'];
+			$ckmail     =  $JuserInfo['mail'];
+			$ckurl      =  $JuserInfo['url']?$JuserInfo['url']:$ckurl;
+			$JuserSatus =  'none';
+		}
+	?>
 	<div class="comment_post_wrap comment_post" id="comment-post">
 		<h3 class="comment-header"><span class="cancel-reply" id="cancel-reply" style="display:none;"><a href="javascript:void(0);" onclick="cancelReply()">取消回复</a></span>发表评论<a name="respond"></a></h3>
 		<form method="post" name="commentform" action="<?php echo BLOG_URL; ?>index.php?action=addcom" id="commentform">
@@ -519,7 +530,7 @@ function blog_comments_post($logid,$ckname,$ckmail,$ckurl,$verifyCode,$allow_rem
 				</div>
 			</div>
 			<?php if(ROLE == ROLE_VISITOR): ?>
-			<div class="comment_user_info">
+			<div class="comment_user_info" style="display:<?php echo $JuserSatus;?>;">
 				<div class="form-group">
 					<input type="text" id="comname" name="comname" value="<?php echo $ckname; ?>" placeholder="昵称">
 					<label for="comname">昵称（必填）</label>
