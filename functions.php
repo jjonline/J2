@@ -458,7 +458,7 @@ function getNowPageSortUrl($logData=null,$logs=null) {
  */
 function isTwiterPage() {
 	$qString = trim(Dispatcher::setPath(), '/');
-	return !!preg_match('/^t(\/?page=\d+)*/',$qString);
+	return !!preg_match('/^t\/?(?:?page=\d+)*/',$qString);
 }
 
 /**
